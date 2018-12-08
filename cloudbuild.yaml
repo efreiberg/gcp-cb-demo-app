@@ -11,8 +11,14 @@ steps:
   args:
   - 'set'
   - 'image'
+  - 'deployment'
   - 'ef-http-app-1'
   - 'ef-docker-app=gcr.io/$PROJECT_ID/gcp-cb-demo-app:latest'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=ef-cluster-1'
+- name: 'gcr.io/cloud-builders/kubectl'
+  args:
+  - rollout
+  - status
+  - deployment/ef-http-app-1-service

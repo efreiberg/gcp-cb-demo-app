@@ -21,4 +21,4 @@ steps:
   args:
   - rollout
   - status
-  - deployment/ef-http-app-1-service
+  - deployment/ef-http-app-1

@@ -6,3 +6,12 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '--tag=gcr.io/$PROJECT_ID/gcp-cb-demo-app', '.']
 images: ['gcr.io/$PROJECT_ID/gcp-cb-demo-app']
+- name: 'gcr.io/cloud-builders/kubectl'
+  args:
+  - 'set'
+  - 'image'
+  - 'ef-http-app-1'
+  - 'ef-docker-app=gcr.io/$PROJECT_ID/gcp-cb-demo-app:$REVISION_ID'
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=ef-cluster-1'

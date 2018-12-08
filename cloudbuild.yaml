@@ -5,7 +5,8 @@ steps:
   args: ['test']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '--tag=gcr.io/$PROJECT_ID/gcp-cb-demo-app', '.']
-images: ['gcr.io/$PROJECT_ID/gcp-cb-demo-app']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["push", "gcr.io/$PROJECT_ID/gcp-cb-demo-app"]
 - name: 'gcr.io/cloud-builders/kubectl'
   args:
   - 'set'

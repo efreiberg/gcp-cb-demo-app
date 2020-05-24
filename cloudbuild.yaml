@@ -1,0 +1,24 @@
+steps:
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install']
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['test']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '--tag=gcr.io/$PROJECT_ID/gcp-cb-demo-app:$REVISION_ID', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ["push", "gcr.io/$PROJECT_ID/gcp-cb-demo-app"]
+- name: 'gcr.io/cloud-builders/kubectl'
+  args:
+  - 'set'
+  - 'image'
+  - 'deployment'
+  - 'ef-http-app-1'
+  - 'ef-docker-app=gcr.io/$PROJECT_ID/gcp-cb-demo-app:$REVISION_ID'
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=ef-cluster-1'
+- name: 'gcr.io/cloud-builders/kubectl'
+  args:
+  - rollout
+  - status
+  - deployment/ef-http-app-1
